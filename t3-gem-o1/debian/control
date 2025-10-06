@@ -1,0 +1,22 @@
+Source: gem-t3-gem-o1-bsp
+Section: admin
+Priority: optional
+Maintainer: Gemstone Dev Team <dev@t3gemstone.org>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.0
+Homepage: https://github.com/t3gemstone/gem-bsp-packages
+Vcs-Browser: https://github.com/t3gemstone/gem-bsp-packages
+Vcs-Git: https://github.com/t3gemstone/gem-bsp-packages.git
+
+Package: gem-t3-gem-o1-bsp
+Architecture: arm64
+Depends: ${misc:Depends}
+Description: BSP files for T3-GEM-O1 (AM67A)
+ This package contains the bootloader and device tree files
+ for the T3-GEM-O1 board based on TI AM67A SoC.
+ .
+ Includes:
+  - Initrd image (gemstone-image-rd-t3-gem-o1.cpio.gz)
+  - TI boot firmware (tiboot3.bin)
+  - Device tree blob (k3-am67a-t3-gem-o1.dtb)
+  - Device tree overlays (*.dtbo)

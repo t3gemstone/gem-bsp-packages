@@ -1,0 +1,107 @@
+name: Build BSP DEB Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      yocto_run_id:
+        description: 'Yocto workflow run ID to fetch artifacts from'
+        required: true
+        type: string
+      machine:
+        description: 'Target machine to build for'
+        required: true
+        type: choice
+        options:
+          - beagley-ai
+          - t3-gem-o1
+
+permissions:
+  actions: read
+
+jobs:
+  build-deb:
+    runs-on: ubuntu-24.04-arm
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            debhelper \
+            devscripts \
+            build-essential \
+            fakeroot
+
+      - name: Download Yocto artifacts
+        uses: actions/download-artifact@v4
+        with:
+          # Adjust this to match your Yocto workflow artifact name
+          name: yocto-${{ inputs.machine }}-gemstone-image-rd
+          path: ${{ inputs.machine }}
+          run-id: ${{ inputs.yocto_run_id }}
+          github-token: ${{ secrets.SDK_ACTIONS_READ_PAT }}
+          repository: t3gemstone/sdk
+
+      - name: Organize artifacts
+        run: |
+          cd ${{ inputs.machine }}/
+
+          tar -xf images.tar
+
+          mkdir -p overlays
+
+          # Move dtbo files to overlays directory
+          overlays=$(find . -name '*${{ inputs.machine }}.dtbo')
+          for overlay_file in $overlays; do
+            cp "$overlay_file" overlays/${overlay_file%-${{ inputs.machine }}.dtbo}.dtbo
+          done
+
+          # Verify required files exist
+          for file in tiboot3.bin gemstone-image-rd-${{ inputs.machine }}.cpio.gz k3-am67a-${{ inputs.machine }}.dtb; do
+            if [ ! -f "$file" ]; then
+              echo "Error: Required file $file not found!"
+              exit 1
+            fi
+          done
+
+          echo "Files ready for packaging:"
+          ls -lh tiboot3.bin *.dtb
+          ls -lh overlays/ 2>/dev/null || echo "No overlay files"
+
+      - name: Get version from changelog
+        id: version
+        run: |
+          cd ${{ inputs.machine }}/
+          VERSION=$(dpkg-parsechangelog -S Version)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building package version: $VERSION"
+
+      - name: Build DEB package
+        run: |
+          cd ${{ inputs.machine }}/
+
+          # Make rules executable
+          chmod +x debian/rules
+
+          # Build the package
+          dpkg-buildpackage -us -uc -b
+
+      - name: Get package info
+        id: pkg_info
+        run: |
+          DEB_FILE=$(ls *.deb | head -n1)
+          echo "filename=$DEB_FILE" >> $GITHUB_OUTPUT
+          echo "Package built: $DEB_FILE"
+
+          # Show package contents
+          dpkg-deb --contents "$DEB_FILE"
+
+      - name: Upload DEB package
+        uses: actions/upload-artifact@v4
+        with:
+          name: gem-${{ inputs.machine }}-bsp-deb
+          path: "*.deb"
+          retention-days: 90

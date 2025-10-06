@@ -1,0 +1,6 @@
+gem-beagley-ai-bsp (1.0.0-1) unstable; urgency=medium
+
+  * Initial release
+  * U-Boot version: 93735daa6fe024304934d5a5e93ab05a06abf1a8
+
+ -- Gemstone Dev Team <dev@t3gemstone.org>  Fri, 04 Oct 2025 10:40:35 +0300

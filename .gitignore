@@ -1,0 +1,41 @@
+# Binary artifacts from Yocto (DO NOT COMMIT)
+*.img
+*.bin
+Image
+*.dtb
+*.dtbo
+*.cpio.gz
+beagley-ai/overlays/
+t3-gem-o1/overlays/
+
+# Built Debian packages
+*.deb
+*.changes
+*.buildinfo
+
+# Debian build artifacts - BeagleY-AI
+beagley-ai/debian/.debhelper/
+beagley-ai/debian/gem-beagley-ai-bsp/
+beagley-ai/debian/files
+beagley-ai/debian/*.log
+beagley-ai/debian/*.substvars
+beagley-ai/debian/debhelper-build-stamp
+
+# Debian build artifacts - T3 GEM O1
+t3-gem-o1/debian/.debhelper/
+t3-gem-o1/debian/gem-t3-gem-o1-bsp/
+t3-gem-o1/debian/files
+t3-gem-o1/debian/*.log
+t3-gem-o1/debian/*.substvars
+t3-gem-o1/debian/debhelper-build-stamp
+
+# Temporary files
+*~
+*.swp
+*.swo
+.*.swp
+
+# Build directories
+build/
+dist/
+obj-*/

@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	# No build step needed - binaries are pre-built from Yocto
+
+override_dh_auto_install:
+	# Create boot directory structure
+	mkdir -p debian/gem-t3-gem-o1-bsp/boot/
+	mkdir -p debian/gem-t3-gem-o1-bsp/boot/overlays/
+	
+	# Copy boot files if they exist in the source directory
+	if [ -f tiboot3.bin ]; then \
+		cp tiboot3.bin debian/gem-t3-gem-o1-bsp/boot/; \
+	fi
+	if [ -f k3-am67a-t3-gem-o1.dtb ]; then \
+		cp k3-am67a-t3-gem-o1.dtb debian/gem-t3-gem-o1-bsp/boot/; \
+	fi
+	
+	# Copy device tree overlays if they exist
+	if [ -d overlays ]; then \
+		cp overlays/*.dtbo debian/gem-t3-gem-o1-bsp/boot/overlays/ 2>/dev/null || true; \
+	fi
+
+override_dh_strip:
+	# Don't strip binaries (they're boot files, not executables)
+
+override_dh_shlibdeps:
+	# Skip library dependency detection
+
+override_dh_installchangelogs:
+	# Prevent changelog installation
+
+override_dh_installdocs:
+	# do nothing
+
+override_dh_compress:
+	# do nothing

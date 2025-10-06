@@ -1,0 +1,6 @@
+gem-t3-gem-o1-bsp (1.0.0-1) unstable; urgency=medium
+
+  * Initial release
+  * U-Boot version: edf35564dddfda461567771082cf61a95c870d87
+
+ -- Gemstone Dev Team <dev@t3gemstone.org>  Fri, 04 Oct 2025 10:40:35 +0300
