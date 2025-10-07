@@ -1,6 +1,6 @@
 # GEM BSP Packages
 
-Debian packaging repository for GEM Board Support Package (BSP) files. This repository builds and distributes bootloader and device tree files for embedded Linux boards as installable DEB packages.
+Debian packaging repository for Gemstone Board Support Package (BSP) files. This repository builds and distributes bootloader and device tree files for embedded Linux boards as installable DEB packages.
 
 ## Supported Boards
 
@@ -37,13 +37,13 @@ sudo apt install debhelper devscripts build-essential fakeroot
    ```bash
    cd t3-gem-o1/
 
-   # Create a new version entry with proper format
    DEBFULLNAME="Gemstone Dev Team" \
    DEBEMAIL="dev@t3gemstone.org" \
    dch -v "1.0.0-1" "Initial release"
 
-   # Add U-Boot version info
-   dch -a "U-Boot version: edf35564dddfda461567771082cf61a95c870d87"
+   # Add meta-gemstone revision info to track exact
+   # versions of the kernel, u-boot and initramfs.
+   dch -a "meta-gemstone revision: 93976e7f8b7cafd50f2354895f1723bb6896bdd8"
 
    # Mark as released (finalizes the entry)
    dch -D unstable -r ""
@@ -54,7 +54,7 @@ sudo apt install debhelper devscripts build-essential fakeroot
    gem-t3-gem-o1-bsp (1.0.0-1) unstable; urgency=medium
 
      * Initial release
-     * U-Boot version: edf35564dddfda461567771082cf61a95c870d87
+     * meta-gemstone revision: 93976e7f8b7cafd50f2354895f1723bb6896bdd8
 
     -- Gemstone Dev Team <dev@t3gemstone.org>  Fri, 04 Oct 2025 10:40:35 +0300
    ```
@@ -96,8 +96,8 @@ Packages are built automatically via GitHub Actions workflows.
    DEBEMAIL="dev@t3gemstone.org" \
    dch -v "1.0.1-1" "Update bootloader"
 
-   # Add version details
-   dch -a "U-Boot version: <commit-hash>"
+   # Add revision
+   dch -a "meta-gemstone revision: <commit-hash>"
 
    # Finalize
    dch -D unstable -r ""
@@ -111,7 +111,7 @@ Packages are built automatically via GitHub Actions workflows.
 2. **Trigger the workflow:**
    - Go to Actions → Select workflow
    - Click "Run workflow"
-   - Enter the Yocto workflow run ID
+   - Enter the Yocto workflow run ID (see [Finding Yocto Run ID](#finding-yocto-run-id))
    - The version will be read automatically from `debian/changelog`
 
 3. **Download the package:**
@@ -124,13 +124,13 @@ Packages are built automatically via GitHub Actions workflows.
 # List recent workflow runs in your Yocto repository
 gh run list --repo t3gemstone/sdk --limit 10
 
-# Get the run ID (first column)
+# Get the run ID (sixth column)
 # Example output:
-# STATUS  TITLE           WORKFLOW     BRANCH  EVENT    ID          ELAPSED  AGE
-# ✓       Yocto Build     Build        main    push     1234567890  45m      2h
+# STATUS  TITLE                           WORKFLOW                        BRANCH  EVENT              ID           ELAPSED   AGE               
+# ✓       Build Yocto Images              Build Yocto Images              main    workflow_dispatch  18278937015  2h49m5s   about 17 hours ago
 ```
 
-Use the ID (`1234567890`) as input to the DEB build workflow.
+Use the ID (`18278937015`) as input to the DEB build workflow.
 
 ### Changelog Format
 
@@ -139,7 +139,7 @@ Follow Debian changelog format with version format `MAJOR.MINOR.PATCH-REVISION`:
 gem-t3-gem-o1-bsp (1.0.0-1) unstable; urgency=medium
 
   * Initial release
-  * U-Boot version: edf35564dddfda461567771082cf61a95c870d87
+  * meta-gemstone revision: 93976e7f8b7cafd50f2354895f1723bb6896bdd8
 
  -- Gemstone Dev Team <dev@t3gemstone.org>  Fri, 04 Oct 2025 10:40:35 +0300
 ```
