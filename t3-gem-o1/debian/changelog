@@ -1,3 +1,10 @@
+gem-t3-gem-o1-bsp (1.0.0-2) unstable; urgency=medium
+
+  * Add initramfs
+  * meta-gemstone revision: 93976e7f8b7cafd50f2354895f1723bb6896bdd8
+
+ -- Gemstone Dev Team <dev@t3gemstone.org>  Wed, 08 Oct 2025 07:32:13 +0300
+
 gem-t3-gem-o1-bsp (1.0.0-1) unstable; urgency=medium
 
   * Initial release

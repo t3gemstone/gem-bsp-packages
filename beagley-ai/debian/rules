@@ -18,6 +18,9 @@ override_dh_auto_install:
 	if [ -f k3-am67a-beagley-ai.dtb ]; then \
 		cp k3-am67a-beagley-ai.dtb debian/gem-beagley-ai-bsp/boot/; \
 	fi
+	if [ -f gemstone-image-rd-beagley-ai.cpio.gz ]; then \
+		cp gemstone-image-rd-beagley-ai.cpio.gz debian/gem-beagley-ai-bsp/boot/; \
+	fi
 	
 	# Copy device tree overlays if they exist
 	if [ -d overlays ]; then \
