@@ -37,8 +37,9 @@ sudo apt install debhelper devscripts build-essential fakeroot
    ```bash
    cd t3-gem-o1/
 
-   DEBFULLNAME="Gemstone Dev Team" \
-   DEBEMAIL="dev@t3gemstone.org" \
+   export DEBFULLNAME="Gemstone Dev Team"
+   export DEBEMAIL="dev@t3gemstone.org"
+
    dch -v "1.0.0-1" "Initial release"
 
    # Add meta-gemstone revision info to track exact
@@ -92,8 +93,9 @@ Packages are built automatically via GitHub Actions workflows.
    cd t3-gem-o1/
 
    # Set maintainer info
-   DEBFULLNAME="Gemstone Dev Team" \
-   DEBEMAIL="dev@t3gemstone.org" \
+   export DEBFULLNAME="Gemstone Dev Team"
+   export DEBEMAIL="dev@t3gemstone.org"
+
    dch -v "1.0.1-1" "Update bootloader"
 
    # Add revision
