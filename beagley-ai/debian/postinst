@@ -15,12 +15,10 @@ update_file() {
     fi
 
     if [ -f "$dst" ] && cmp -s "$src" "$dst"; then
-        echo "postinst: unchanged: $dst"
         return 0
     fi
 
     install -m 0644 "$src" "$dst"
-    echo "postinst: updated: $dst"
 }
 
 case "$1" in
