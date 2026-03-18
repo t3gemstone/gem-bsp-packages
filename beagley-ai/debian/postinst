@@ -1,0 +1,50 @@
+#!/bin/sh
+
+set -e
+
+PKG_DIR="/usr/lib/gem-beagley-ai-bsp"
+BOOT_DIR="/boot"
+
+update_file() {
+    src="$1"
+    dst="$2"
+
+    if [ ! -f "$src" ]; then
+        echo "postinst: missing source file: $src" >&2
+        exit 1
+    fi
+
+    if [ -f "$dst" ] && cmp -s "$src" "$dst"; then
+        return 0
+    fi
+
+    install -m 0644 "$src" "$dst"
+}
+
+case "$1" in
+    configure|reconfigure)
+        if ! mountpoint -q "$BOOT_DIR"; then
+            echo "postinst: $BOOT_DIR is not mounted" >&2
+            exit 1
+        fi
+
+        if [ ! -d "$PKG_DIR" ]; then
+            echo "postinst: package data directory not found: $PKG_DIR" >&2
+            exit 1
+        fi
+
+        update_file "$PKG_DIR/tiboot3.bin" "$BOOT_DIR/"
+        update_file "$PKG_DIR/k3-am67a-beagley-ai.dtb" "$BOOT_DIR/"
+        update_file "$PKG_DIR/gemstone-image-rd-beagley-ai.cpio.gz" "$BOOT_DIR/"
+
+        dtbo_files=$(find "$PKG_DIR" -name '*.dtbo')
+
+        mkdir -p "$BOOT_DIR/overlays"
+
+        for dtbo_file in $dtbo_files; do
+            update_file "$dtbo_file" "$BOOT_DIR/overlays/"
+        done
+        ;;
+esac
+
+exit 0

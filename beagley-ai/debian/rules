@@ -8,23 +8,23 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	# Create boot directory structure
-	mkdir -p debian/gem-beagley-ai-bsp/boot/
-	mkdir -p debian/gem-beagley-ai-bsp/boot/overlays/
+	mkdir -p debian/gem-beagley-ai-bsp/usr/lib/gem-beagley-ai-bsp/
+	mkdir -p debian/gem-beagley-ai-bsp/usr/lib/gem-beagley-ai-bsp/overlays/
 	
 	# Copy boot files if they exist in the source directory
 	if [ -f tiboot3.bin ]; then \
-		cp tiboot3.bin debian/gem-beagley-ai-bsp/boot/; \
+		install -m 0644 tiboot3.bin debian/gem-beagley-ai-bsp/usr/lib/gem-beagley-ai-bsp/; \
 	fi
 	if [ -f k3-am67a-beagley-ai.dtb ]; then \
-		cp k3-am67a-beagley-ai.dtb debian/gem-beagley-ai-bsp/boot/; \
+		install -m 0644 k3-am67a-beagley-ai.dtb debian/gem-beagley-ai-bsp/usr/lib/gem-beagley-ai-bsp/; \
 	fi
 	if [ -f gemstone-image-rd-beagley-ai.cpio.gz ]; then \
-		cp gemstone-image-rd-beagley-ai.cpio.gz debian/gem-beagley-ai-bsp/boot/; \
+		install -m 0644 gemstone-image-rd-beagley-ai.cpio.gz debian/gem-beagley-ai-bsp/usr/lib/gem-beagley-ai-bsp/; \
 	fi
 	
 	# Copy device tree overlays if they exist
 	if [ -d overlays ]; then \
-		cp overlays/*.dtbo debian/gem-beagley-ai-bsp/boot/overlays/ 2>/dev/null || true; \
+		install -m 0644 overlays/*.dtbo debian/gem-beagley-ai-bsp/usr/lib/gem-beagley-ai-bsp/overlays/ 2>/dev/null || true; \
 	fi
 
 override_dh_strip:

@@ -61,7 +61,7 @@ echo "Building package..."
 chmod +x debian/rules
 
 # Build the package
-dpkg-buildpackage -us -uc -b
+dpkg-buildpackage -us -uc -b -a arm64
 
 echo "Build complete!"
 echo "Package created in parent directory:"
