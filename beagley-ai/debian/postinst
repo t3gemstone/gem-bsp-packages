@@ -23,11 +23,6 @@ update_file() {
 
 case "$1" in
     configure|reconfigure)
-        if ! mountpoint -q "$BOOT_DIR"; then
-            echo "postinst: $BOOT_DIR is not mounted" >&2
-            exit 1
-        fi
-
         if [ ! -d "$PKG_DIR" ]; then
             echo "postinst: package data directory not found: $PKG_DIR" >&2
             exit 1

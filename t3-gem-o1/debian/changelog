@@ -1,3 +1,10 @@
+gem-t3-gem-o1-bsp (1.0.1-3) unstable; urgency=medium
+
+  * Remove mountpoint check
+  * meta-gemstone revision: cd34acd9ff68e204d34bedfd1b24782878b7c50b
+
+ -- Gemstone Dev Team <dev@t3gemstone.org>  Mon, 23 Mar 2026 12:12:47 +0300
+
 gem-t3-gem-o1-bsp (1.0.1-2) unstable; urgency=medium
 
   * Update installation directories
