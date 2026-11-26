@@ -1,3 +1,10 @@
+gem-t3-gem-o1-bsp (1.0.3-1) unstable; urgency=medium
+
+  * Update bootloader
+  * meta-gemstone revision: 03abe646e7a63a975f03af9ff0dddc50948a0111
+
+ -- Gemstone Dev Team <dev@t3gemstone.org>  Thu, 26 Nov 2026 08:59:18 +0300
+
 gem-t3-gem-o1-bsp (1.0.2-1) unstable; urgency=medium
 
   * Update bootloader
